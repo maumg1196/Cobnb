@@ -5,6 +5,7 @@ from places.models import Place
 @admin.register(Place)
 class PlaceAdmin(admin.ModelAdmin):
     list_display = ('name',
+                    'id',
                     'city',
                     'place_available',
                     'get_image',
