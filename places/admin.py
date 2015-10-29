@@ -13,3 +13,7 @@ class PlaceAdmin(admin.ModelAdmin):
                     'price',
                     'tipo',
                     'payout_method',)
+
+    list_display_links = ('name',)
+    list_filter = ('city', 'place_available',)
+    list_editable = ('payout_method', 'price')
