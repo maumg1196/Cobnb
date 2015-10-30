@@ -4,8 +4,8 @@ from places.models import Place
 
 @admin.register(Place)
 class PlaceAdmin(admin.ModelAdmin):
-    list_display = ('name',
-                    'id',
+    list_display = ('id',
+                    'name',
                     'city',
                     'place_available',
                     'get_image',
