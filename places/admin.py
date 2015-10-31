@@ -12,7 +12,7 @@ class PlaceAdmin(admin.ModelAdmin):
                     'created',
                     'modified',
                     'price',
-                    'tipo',
+                    'type_of_place',
                     'payout_method',)
 
     list_display_links = ('name',)

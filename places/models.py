@@ -2,6 +2,21 @@ from django.db import models
 from users.models import UserProfile
 
 
+CHOICE_PLACES = (
+    ('F', 'Food'),
+    ('T', 'Technologic'),
+    ('M', 'Medicin'),
+    ('S', 'School'),
+)
+
+CHOICE_PAYOUT = (
+    ('D', 'Tarjeta de Debito'),
+    ('C', 'Tarjeta de Credito'),
+    ('E', 'Efectivo'),
+    ('P', 'PayPal'),
+)
+
+
 class Place(models.Model):
     # Owners
     owners = models.ManyToManyField(UserProfile)
@@ -19,24 +34,24 @@ class Place(models.Model):
     modified = models.DateTimeField(auto_now=True)
 
     # Image
-    place_image = models.ImageField(upload_to="place_media", null=True, blank=True)
-
-    def get_image(self):
-        try:
-            return """<img src="{}" style="display: block; width: 60px;"/>""".format(self.event_image.url)
-        except:
-            return "<h3>No image</h3>"
-    get_image.allow_tags = True
+    place_image = models.ImageField(upload_to="place_media", null=True)
 
     # Money
-    price = models.IntegerField(default=0)
-    payout_method = models.CharField(max_length=2225)
+    price = models.FloatField(default=0.0)
+    payout_method = models.CharField(max_length=2225, choices=CHOICE_PAYOUT, null=True, blank=True)
 
     # Place's Attributes
     name = models.CharField(max_length=1000, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     meters = models.IntegerField(default=0)
-    tipo = models.CharField(max_length=255)
+    type_of_place = models.CharField(max_length=255, choices=CHOICE_PLACES, null=True, blank=True)
 
     # Available
     place_available = models.BooleanField(default=True)
+
+    def get_image(self):
+        try:
+            return """<img src="{}" style="display: block; width: 60px;"/>""".format(self.image.url)
+        except:
+            return "<h3>No image</h3>"
+    get_image.allow_tags = True
