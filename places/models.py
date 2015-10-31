@@ -34,7 +34,7 @@ class Place(models.Model):
     modified = models.DateTimeField(auto_now=True)
 
     # Image
-    place_image = models.ImageField(upload_to="place_media", null=True)
+    place_image = models.ImageField(upload_to="static/img/place_media", null=True)
 
     # Money
     price = models.FloatField(default=0.0)
