@@ -51,7 +51,7 @@ class Place(models.Model):
 
     def get_image(self):
         try:
-            return """<img src="{}" style="display: block; width: 60px;"/>""".format(self.image.url)
+            return u'<img src="%s" style="display: block; width: 60px;"/>' % self.place_image.url
         except:
             return "<h3>No image</h3>"
     get_image.allow_tags = True

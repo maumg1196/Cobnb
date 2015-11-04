@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
+from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from places.models import Place
-from django.http import HttpResponse
 from places.forms import PlaceForm
 
 
@@ -17,11 +17,11 @@ def new_place(request):
     if request.method == 'POST':
         form = PlaceForm(request.POST)
         print request.POST
-        return HttpResponse('')
         if form.is_valid():
             form.save()
-            return redirect('/places.html')
+            return redirect(reverse('places:home'))
         else:
+            print("fallo")
             return render(request, 'create_place.html', {'place_form': form})
 
     form = PlaceForm()

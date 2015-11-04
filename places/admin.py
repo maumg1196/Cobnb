@@ -18,3 +18,4 @@ class PlaceAdmin(admin.ModelAdmin):
     list_display_links = ('name',)
     list_filter = ('city', 'place_available',)
     list_editable = ('payout_method', 'price')
+    readonly_fields = ('get_image',)
