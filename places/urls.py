@@ -1,13 +1,12 @@
 from django.conf.urls import include, url
+from places.views import HomeView, CreatePlace
 
 urlpatterns = [
 
-    url(r'^$',
-        'places.views.home',
-        name='home'),
+    url(r'^$', HomeView.as_view(), name='home'),
 
-    url(r'^create_place/$',
-        'places.views.new_place',
+    url(r'^place_form/$',
+        CreatePlace.as_view(),
         name='new_place'),
 
 ]

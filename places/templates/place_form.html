@@ -7,7 +7,7 @@
 <body>
 	<form method="POST" action = "{%url 'places:new_place'%}">
 		{% csrf_token %}
-		{{ place_form.as_p }}
+		{{ form.as_p }}
 		<input type="submit">
 	</form>
 </body>
