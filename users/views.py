@@ -16,7 +16,7 @@ def signin_view(request):
                 login(request, user)
                 return redirect('/')
             else:
-                context['meesage'] = "Existe usuario pero no es activo"
+                context['message'] = "Existe usuario pero no es activo"
         else:
             context['message'] = "No existe usuario"
     return render(request, 'signin.html', context)

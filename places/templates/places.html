@@ -12,14 +12,15 @@
             <li>
                 <p>
                     {{ place.name}} | 
-                    {{ place.get_image }} | 
                     {{ place.type_of_place }} |
                     ${{ place.price }} |
                     {{ place.city }}
                 </p>
+                <p>
                 <figure style="width: 70px;">
-                    <img src="{{ place.get_image.image.url }}" />
+                    <img src="{{ place.place_image.url }}" />
                 </figure>
+                </p>
         {% endfor %}
     </ul>
     <a href="/create_place">Create a new place</a>
