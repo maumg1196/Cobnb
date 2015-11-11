@@ -3,13 +3,15 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from places.models import Place
-from places.forms import PlaceForm
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView, DetailView
+from users.models import UserProfile
+from django.contrib.auth.models import User
 
 
-class HomeView(TemplateView):
-    template_name = 'places.html'
+class ListPlace(ListView):
+    model = Place
+    template_name = "place_list.html"
 
 
 class CreatePlace(CreateView):
@@ -19,13 +21,28 @@ class CreatePlace(CreateView):
               'price',
               'type_of_place',
               'description',
-              'meters',
-              'place_image', ]
+              'meters', ]
 
-    success_url = '/'
+    success_url = '/list_place'
 
     @method_decorator(login_required(login_url="/signin/"))
     def dispatch(self, *args, **kwargs):
         return super(CreatePlace, self).dispatch(*args, **kwargs)
 
-# super(CreatePlace, self)
+    def form_valid(self, form):
+        print(self.request.user.id)
+        user_django = User.objects.get(id=self.request.user.id)
+        form.instance.owner = user_django
+        return super(CreatePlace, self).form_valid(form)
+
+
+class PlaceDetail(DetailView):
+    model = Place
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(PlaceDetail, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(PlaceDetail, self).get_context_data(**kwargs)
+        return context

@@ -1,44 +1,49 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
 from users.models import UserProfile
+from django.contrib.auth.models import User
+from django.views.generic.edit import CreateView, UpdateView, FormView
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.views.generic import TemplateView, ListView
+from django.contrib.auth.forms import AuthenticationForm
+from django.core.urlresolvers import reverse_lazy
+from places.forms import PlaceForm
+from places.models import Place
 
 
-def signin_view(request):
-    context = {}
-    if request.method == 'POST':
-        username = request.POST.get('username', None)
-        password = request.POST.get('password', None)
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            if user.is_active:
-                context['message'] = "Listo usuario existente y activo"
-                login(request, user)
-                return redirect('/')
-            else:
-                context['message'] = "Existe usuario pero no es activo"
+class UserLogin(FormView):
+    form_class = AuthenticationForm
+    template_name = "signin.html"
+    success_url = "/list_place"
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated():
+            return redirect(self.get_success_url())
         else:
-            context['message'] = "No existe usuario"
-    return render(request, 'signin.html', context)
+            return super(UserLogin, self).dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        login(self.request, form.get_user())
+        return super(UserLogin, self).form_valid(form)
 
 
-def signup_view(request):
-    context = {}
-    if request.method == 'POST':
-        username = request.POST.get('username', None)
-        password = request.POST.get('password', None)
-        email = request.POST.get('email', None)
-        first_name = request.POST.get('first_name', None)
-        last_name = request.POST.get('last_name', None)
-        if (username and password and email and first_name and last_name):
-            user = User.objects.create_user(username, email, password)
-            user.first_name = first_name
-            user.last_name = last_name
-            user.save()
-            userprofile = UserProfile(user=user)
-            userprofile.save()
-            return redirect('/signin')
-    return render(request, 'signup.html', context)
+class UserCreate(CreateView):
+    model = User
+    template_name = "user_form.html"
+    form = PlaceForm
+    fields = ['first_name',
+              'last_name',
+              'email',
+              'username',
+              'password', ]
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.user = self.request.user
+        obj.set_password(form.cleaned_data['password'])
+        obj.save()
+        return redirect("/signin")
 
 
 def logout_view(request):

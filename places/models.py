@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from users.models import UserProfile
 
 
@@ -18,8 +19,8 @@ CHOICE_PAYOUT = (
 
 
 class Place(models.Model):
-    # Owners
-    owners = models.ManyToManyField(UserProfile)
+
+    owner = models.ForeignKey(User, null=True, blank=True)
 
     # Place's Address
     city = models.CharField(max_length=255)
