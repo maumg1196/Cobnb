@@ -6,6 +6,7 @@ from places.models import Place
 class PlaceAdmin(admin.ModelAdmin):
     list_display = ('id',
                     'name',
+                    'owner',
                     'city',
                     'place_available',
                     'get_image',

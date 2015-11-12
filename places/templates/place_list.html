@@ -12,6 +12,7 @@
             Type: {{ place.type }} | 
             Price: {{ place.price }} |</li>
             Description: {{ place.description}}</li>
+            <a href="{% url 'places:place_detail' place.id %}">Details</a>
         {% endfor %}
     </ul>
     <a href="/create_place">Create a new place</a>

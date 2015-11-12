@@ -38,6 +38,7 @@ class CreatePlace(CreateView):
 
 class PlaceDetail(DetailView):
     model = Place
+    template_name = "place_detail.html"
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
