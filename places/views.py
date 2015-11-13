@@ -21,7 +21,8 @@ class CreatePlace(CreateView):
               'price',
               'type_of_place',
               'description',
-              'meters', ]
+              'meters',
+              'place_image', ]
 
     success_url = '/list_place'
 
@@ -30,7 +31,6 @@ class CreatePlace(CreateView):
         return super(CreatePlace, self).dispatch(*args, **kwargs)
 
     def form_valid(self, form):
-        print(self.request.user.id)
         user_django = User.objects.get(id=self.request.user.id)
         form.instance.owner = user_django
         return super(CreatePlace, self).form_valid(form)

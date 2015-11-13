@@ -27,7 +27,6 @@ class Place(models.Model):
     number = models.CharField(max_length=10)
     state = models.CharField(max_length=255)
     street = models.CharField(max_length=255)
-    suite = models.CharField(max_length=15, null=True, blank=True)
     zip_code = models.CharField(max_length=8)
 
     # Meta Data

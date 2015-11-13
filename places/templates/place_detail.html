@@ -6,6 +6,13 @@
 <body>
     <h1>{{ place.nombre}}</h1>
     <h3>Owner Place: {{ place.owner }}</h3>
+    <figure>
+        {% if place.place_image %}
+        <img src="{{ place.place_image.url }}">
+        {% else %}
+        <img src="http://www.404notfound.fr/assets/images/pages/img/androiddev101.jpg">
+        {% endif %}
+    </figure>
     <p>{{ place.description}}</p>
     <h3>Precio: ${{ place.price }}</h3>
 </body>

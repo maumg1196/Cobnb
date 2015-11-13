@@ -13,4 +13,6 @@ class PlaceForm(ModelForm):
                   'price',
                   'type_of_place',
                   'description',
-                  'meters', ]
+                  'meters',
+                  'place_image', ]
+# @gabocharles wairamexico
